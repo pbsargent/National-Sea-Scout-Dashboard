@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard Help | National Sea Scout Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+    <script>
+      (() => {
+        const themes = ["system", "light", "dark"];
+        let theme = "system";
+        try {
+          const saved = localStorage.getItem("dashboard-theme-v2");
+          if (themes.includes(saved)) theme = saved;
+        } catch (_error) {
+          // System is the safe default when browser storage is unavailable.
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=20260714-help-theme">
+    <style>
+      .help-shell {
+        display: grid;
+        gap: 16px;
+        max-width: 920px;
+        margin: 0 auto;
+      }
+      .help-panel {
+        display: grid;
+        gap: 14px;
+        padding: 18px;
+      }
+      .help-panel h1 {
+        margin: 0 0 6px;
+        line-height: 1.2;
+      }
+      .help-grid {
+        display: grid;
+        gap: 10px;
+      }
+      .help-panel ul,
+      .help-panel ol,
+      .help-panel p {
+        margin: 0;
+        padding-left: 1.05rem;
+      }
+      .help-panel section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 12px;
+        background: var(--field);
+      }
+      .help-panel h2 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+      }
+      .help-panel p + p {
+        margin-top: 10px;
+      }
+      .color-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .color-legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+      .color-chip {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .color-chip.good { background: var(--green); }
+      .color-chip.warn { background: var(--gold); }
+      .color-chip.bad { background: var(--red); }
+      .color-chip.neutral { background: var(--muted); }
+      .help-back {
+        display: inline-block;
+        margin-bottom: 4px;
+        color: var(--navy);
+        font-weight: 800;
+        text-decoration: none;
+      }
+      .help-back:hover,
+      .help-back:focus-visible {
+        color: var(--teal);
+        outline: none;
+      }
+      @media (max-width: 760px) {
+        .help-shell {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <img class="site-logo" src="assets/national-sea-scout-service.png" alt="Sea Scouts BSA National Service">
+        <div>
+          <p class="eyebrow">National Sea Scout Dashboard</p>
+          <h1>Dashboard Help</h1>
+        </div>
+      </div>
+      <div class="source">
+        <a href="index.html">Back to dashboard</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel help-shell">
+        <article class="panel help-panel">
+          <a class="help-back" href="index.html">← Back to national dashboard</a>
+          <div class="detail-title">
+            <strong>What this page covers</strong>
+            <span class="muted">Field definitions, status meanings, and color behavior.</span>
+          </div>
+          <section>
+            <h2>1) What data powers the dashboard</h2>
+            <div class="help-grid">
+              <p>The dashboard is built from the newest capture in Google Drive:</p>
+              <ul>
+                <li><strong>NSSC Membership Spreadsheet Capture/SeaScoutShips-YYYY-MM-DD.xlsx</strong></li>
+              </ul>
+              <p>Only the <strong>Ships</strong> worksheet is used. The publish process:</p>
+              <ol>
+                <li>Keeps rows with a valid <strong>UnitID</strong>.</li>
+                <li>Writes <strong>data/ships.csv</strong> as a snapshot.</li>
+                <li>Writes <strong>data/dashboard-data.json</strong> with normalized values.</li>
+              </ol>
+              <p>If you want to check which capture drove a publish, look for:
+                <code>meta.sourceCapture</code> and <code>meta.sourceCaptureName</code> in
+                <strong>data/dashboard-data.json</strong>.
+              </p>
+            </div>
+          </section>
+
+          <section>
+            <h2>2) Field sources</h2>
+            <div class="help-grid">
+              <p><strong>Ship identity and basics</strong></p>
+              <ul>
+                <li>Ship number → <strong>Ship #</strong></li>
+                <li>Ship ID → <strong>UnitID</strong> (stable dashboard key)</li>
+                <li>Ship name → <strong>Ship Name if tracking</strong></li>
+                <li>CST → <strong>CST</strong></li>
+                <li>Council → <strong>Council Name</strong></li>
+                <li>District → <strong>District</strong></li>
+                <li>Owner → <strong>Owner</strong> (blank shows <strong>Unassigned</strong>)</li>
+                <li>AUX district → <strong>CG Aux Districts</strong> (blank shows <strong>Unassigned</strong>)</li>
+                <li>Focus → <strong>Ship Focus</strong> (blank shows <strong>Unspecified</strong>)</li>
+                <li>Ship status → <strong>Status</strong> (default <strong>Established</strong>)</li>
+              </ul>
+              <p><strong>Youth, adults, and trends</strong></p>
+              <ul>
+                <li>Total youth → <strong>Total Youth</strong></li>
+                <li>Adults → <strong>Total Adult</strong></li>
+                <li>Primary youth → <strong>Primary Youth</strong></li>
+                <li>Total youth YOY → <strong>Total Youth YOY</strong></li>
+                <li>Primary youth YOY → <strong>Primary YOY</strong></li>
+              </ul>
+              <p><strong>Training and readiness inputs</strong></p>
+              <ul>
+                <li>Skipper trained → <strong>Skipper Trained</strong></li>
+                <li>Committee Chair trained → <strong>CC Trained</strong></li>
+                <li>Size healthy → <strong>Size</strong></li>
+                <li>Growth healthy → <strong>Growth</strong></li>
+                <li>Advancement healthy → <strong>20% Advance</strong></li>
+                <li>Outdoor healthy → <strong>Outdoor</strong></li>
+                <li>Unit Metric → <strong>Unit Metric</strong></li>
+                <li>Charter Organization → <strong>Charter Organization</strong></li>
+                <li>Skipper Name → <strong>Skipper Name</strong></li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2>3) How status labels are calculated</h2>
+            <div class="help-grid">
+              <ul>
+                <li>Size: <strong>Healthy</strong> when <strong>Size</strong> is Yes, otherwise <strong>Needs Attention</strong>.</li>
+                <li>Growth: <strong>Healthy</strong> when <strong>Growth</strong> is Yes, otherwise <strong>Needs Attention</strong>.</li>
+                <li>Advance: <strong>Healthy</strong> when <strong>20% Advance</strong> is Yes, otherwise <strong>Needs Attention</strong>.</li>
+                <li>Outdoor: <strong>Healthy</strong> when <strong>Outdoor</strong> is Yes, otherwise <strong>Needs Attention</strong>.</li>
+                <li>Training:
+                  <strong>Complete</strong> = both Skipper Trained and CC Trained are Yes;
+                  <strong>Partial</strong> = exactly one is Yes;
+                  <strong>Gap</strong> = neither is Yes.
+                </li>
+                <li>Renewal:
+                  <strong>Next 120</strong> (within 120 days from refresh),
+                  <strong>Past</strong> (before refresh),
+                  <strong>Later</strong> (after 120-day window),
+                  <strong>Unscheduled</strong> (no valid renewal).
+                </li>
+                <li>Metric:
+                  <strong>Strong</strong> for 4-5,
+                  <strong>Watch</strong> for 2-3,
+                  <strong>Risk</strong> for 0-1.
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section>
+            <h2>4) Color meaning</h2>
+            <p class="color-legend">
+              <span><i class="color-chip good"></i><strong>Green</strong> = healthy / complete</span>
+              <span><i class="color-chip warn"></i><strong>Amber</strong> = watch / approaching action</span>
+              <span><i class="color-chip bad"></i><strong>Red</strong> = needs action</span>
+              <span><i class="color-chip neutral"></i><strong>Gray</strong> = informational (later/unscheduled)</span>
+            </p>
+            <p class="muted">These same colors are used in the health bars, status chips, detail cards, and the board legend.</p>
+          </section>
+
+          <section>
+            <h2>5) Summary cards and counts</h2>
+            <div class="help-grid">
+              <ul>
+                <li>Ships: row count with a valid <strong>UnitID</strong></li>
+                <li>New ships: rows where <strong>Status</strong> is <strong>New</strong></li>
+                <li>Total youth / adults: sums of <strong>Total Youth</strong> and <strong>Total Adult</strong></li>
+                <li>Average Unit Metric: average of <strong>Unit Metric</strong></li>
+                <li>Upcoming renewals: renewal dates in the next 120 days</li>
+                <li>Breakdowns: grouped counts used in charts and filters</li>
+              </ul>
+            </div>
+          </section>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
