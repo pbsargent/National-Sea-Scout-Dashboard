@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>National Sea Scout Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+    <script>
+      (() => {
+        const themes = ["system", "light", "dark"];
+        let theme = "system";
+        try {
+          const saved = localStorage.getItem("dashboard-theme-v2");
+          if (themes.includes(saved)) theme = saved;
+        } catch (_error) {
+          // System is the safe default when browser storage is unavailable.
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=20260714-help-theme">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <img class="site-logo" src="assets/national-sea-scout-service.png" alt="Sea Scouts BSA National Service">
+        <div>
+          <p class="eyebrow">National Sea Scout Dashboard</p>
+          <h1>Ship Health and Growth</h1>
+        </div>
+      </div>
+      <div class="source">
+        <span id="updatedAt">Loading data...</span>
+        <a href="../data/ships.csv">CSV</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Dashboard filters">
+        <label>
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Ship, council, district, skipper">
+        </label>
+        <label>
+          <span>Owner</span>
+          <select id="ownerFilter"></select>
+        </label>
+        <label>
+          <span>Aux District</span>
+          <select id="auxFilter"></select>
+        </label>
+        <label>
+          <span>Focus</span>
+          <select id="focusFilter"></select>
+        </label>
+        <div class="toggle-row" role="group" aria-label="Quick filters">
+          <button class="chip active" data-filter="all" type="button">All</button>
+          <button class="chip" data-filter="growth" type="button">Growing</button>
+          <button class="chip" data-filter="training" type="button">Training Gaps</button>
+          <button class="chip" data-filter="renewal" type="button">Renewal Window</button>
+        </div>
+      </section>
+
+      <div class="page-shell">
+        <nav class="panel cst-nav" aria-label="CST navigation">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>CST Dashboards</h2>
+              <span class="help-tip" tabindex="0" aria-label="Open a focused page for each CST. Each CST page filters the newest captured Ships sheet to that CST and rebuilds the same health, focus, renewal, council, and ship views.">?</span>
+            </div>
+          </div>
+          <a class="cst-link nav-home active" href="./" aria-current="page">
+            <strong>National</strong>
+            <span>Top level</span>
+          </a>
+          <a class="cst-link" href="help.html">
+            <strong>Help</strong>
+            <span>Field sources &amp; color meanings</span>
+          </a>
+          <div id="cstLinks" class="cst-link-grid">
+            <a class="cst-link" href="cst.html?cst=1"><strong>CST 1</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=3"><strong>CST 3</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=4"><strong>CST 4</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=5"><strong>CST 5</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=6"><strong>CST 6</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=7"><strong>CST 7</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=8"><strong>CST 8</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=9"><strong>CST 9</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=10"><strong>CST 10</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=12"><strong>CST 12</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=13"><strong>CST 13</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=14"><strong>CST 14</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=15"><strong>CST 15</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=16"><strong>CST 16</strong><span>Open dashboard</span></a>
+          </div>
+        </nav>
+
+        <div class="dashboard-content">
+      <section class="score-grid" aria-label="Summary metrics">
+        <article class="score">
+          <div class="score-title">
+            <span>Total Ships</span>
+            <span class="help-tip" tabindex="0" aria-label="Count of ship rows with a UnitID on the Ships sheet in the newest captured SeaScoutShips workbook.">?</span>
+          </div>
+          <strong id="shipCount">-</strong>
+          <small id="newShipCount">-</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Total Youth</span>
+            <span class="help-tip" tabindex="0" aria-label="Sum of Total Youth for ships in the current view. The YOY note sums the Total Youth YOY field from the captured Ships sheet.">?</span>
+          </div>
+          <strong id="youthCount">-</strong>
+          <small id="youthDelta">-</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Primary Youth</span>
+            <span class="help-tip" tabindex="0" aria-label="Sum of Primary Youth for the current view. This separates primary registered youth from total youth in the captured Ships sheet.">?</span>
+          </div>
+          <strong id="primaryYouth">-</strong>
+          <small id="primaryDelta">-</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Training Coverage</span>
+            <span class="help-tip" tabindex="0" aria-label="Percent of ships in the current view marked Yes for Skipper Trained and CC Trained on the captured Ships sheet.">?</span>
+          </div>
+          <strong id="trainingRate">-</strong>
+          <small>Skipper / Committee Chair</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Avg Unit Metric</span>
+            <span class="help-tip" tabindex="0" aria-label="Average Unit Metric score for ships in the current view. The source score comes from the Unit Metric column on the captured Ships sheet.">?</span>
+          </div>
+          <strong id="avgMetric">-</strong>
+          <small>0 to 5 scale</small>
+        </article>
+      </section>
+
+      <aside class="panel detail-panel" aria-labelledby="detailTitle">
+        <div class="panel-title">
+          <div class="title-with-help">
+            <h2 id="detailTitle">Ship Detail</h2>
+            <span class="help-tip" tabindex="0" aria-label="Select a ship row in the health board below to see the workbook fields used to enrich the board: council, district, charter organization, skipper, youth/adult totals, renewal, training, focus, AUX district, and health flags.">?</span>
+          </div>
+        </div>
+        <div id="shipDetail" class="ship-detail empty-state">Select a ship row in the health board below to display detailed information here.</div>
+      </aside>
+
+      <section class="board-layout" aria-label="National ship health board">
+        <section class="panel board-panel">
+          <div class="panel-title board-title">
+            <div class="title-with-help">
+              <h2>CST Health Board</h2>
+              <span class="help-tip" tabindex="0" aria-label="Green means healthy or complete. Amber means watch or approaching action. Red means attention or action is needed. Gray is informational or not scheduled. Size, Growth, Advancement, and Outdoor use the workbook's Yes/No health flags; Training compares Skipper and Committee Chair training; Renewal compares the renewal date with the dashboard refresh date; Metric uses Strong 4+, Watch 2–3, and Risk below 2. Progress is the share of six positive checks: the four health flags, complete training, and Unit Metric 3+.">?</span>
+            </div>
+            <div class="board-actions">
+              <button id="collapseAll" class="small-button" type="button">Collapse all</button>
+              <button id="expandAll" class="small-button" type="button">Expand all</button>
+              <span id="visibleCount" class="count-pill">0 ships</span>
+            </div>
+          </div>
+          <div class="health-legend" aria-label="Health Board color legend">
+            <span><i class="legend-swatch good"></i><b>Green</b> Healthy / complete</span>
+            <span><i class="legend-swatch warn"></i><b>Amber</b> Watch / approaching</span>
+            <span><i class="legend-swatch bad"></i><b>Red</b> Attention needed</span>
+            <span><i class="legend-swatch neutral"></i><b>Gray</b> Informational</span>
+          </div>
+          <div class="board-header" aria-hidden="true">
+            <span>CST / Council</span>
+            <span>Progress</span>
+            <span>Size</span>
+            <span>Growth</span>
+            <span>Advance</span>
+            <span>Outdoor</span>
+            <span>Training</span>
+            <span>Renewal</span>
+            <span>Metric</span>
+          </div>
+          <div id="groupRows" class="group-rows"></div>
+        </section>
+      </section>
+
+      <section class="dashboard-grid diagnostics-grid">
+        <section class="panel wide">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>National Health Mix</h2>
+              <span class="help-tip" tabindex="0" aria-label="Counts ships by Unit Metric bucket in the current filtered view. Source: Unit Metric values on the newest captured Ships sheet.">?</span>
+            </div>
+            <span id="filteredCount">-</span>
+          </div>
+          <div id="metricBars" class="bar-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Ship Focus</h2>
+              <span class="help-tip" tabindex="0" aria-label="Shows how many ships are tagged with each Ship Focus in the current view. Source: Ship Focus column on the captured Ships sheet.">?</span>
+            </div>
+          </div>
+          <div id="focusBars" class="bar-list compact"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Aux Districts</h2>
+              <span class="help-tip" tabindex="0" aria-label="Shows ship counts by Coast Guard Auxiliary district for the current view. Source: CG Aux Districts column on the captured Ships sheet.">?</span>
+            </div>
+          </div>
+          <div id="auxBars" class="bar-list compact"></div>
+        </section>
+
+        <section class="panel wide">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Largest Youth Councils</h2>
+              <span class="help-tip" tabindex="0" aria-label="Ranks councils by summed Total Youth among ships in the current view. Source: Council Name and Total Youth columns on the captured Ships sheet.">?</span>
+            </div>
+          </div>
+          <div id="councilBars" class="bar-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Renewal Load</h2>
+              <span class="help-tip" tabindex="0" aria-label="Counts ships by renewal month in the current view. Source: Renewal column on the captured Ships sheet.">?</span>
+            </div>
+          </div>
+          <div id="renewalBars" class="bar-list compact"></div>
+        </section>
+      </section>
+
+        </div>
+      </div>
+    </main>
+
+    <script src="ui.js?v=20260714-system-theme"></script>
+    <script src="ship-board.js?v=20260702-status-explanations"></script>
+    <script src="app.js?v=20260702-clear-detail-on-close"></script>
+  </body>
+</html>

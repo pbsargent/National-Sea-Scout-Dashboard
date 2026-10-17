@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CST Dashboard | National Sea Scout Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+    <script>
+      (() => {
+        const themes = ["system", "light", "dark"];
+        let theme = "system";
+        try {
+          const saved = localStorage.getItem("dashboard-theme-v2");
+          if (themes.includes(saved)) theme = saved;
+        } catch (_error) {
+          // System is the safe default when browser storage is unavailable.
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=20260714-help-theme">
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand-lockup">
+        <img class="site-logo" src="assets/national-sea-scout-service.png" alt="Sea Scouts BSA National Service">
+        <div>
+          <p class="eyebrow">National Sea Scout Dashboard</p>
+          <h1 id="pageTitle">CST Dashboard</h1>
+        </div>
+      </div>
+      <div class="source">
+        <a href="./">National</a>
+        <span id="updatedAt">Loading data...</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="CST filters">
+        <label>
+          <span>Search</span>
+          <input id="searchInput" type="search" placeholder="Ship, council, district, skipper">
+        </label>
+        <label>
+          <span>Owner</span>
+          <select id="ownerFilter"></select>
+        </label>
+        <label>
+          <span>Aux District</span>
+          <select id="auxFilter"></select>
+        </label>
+        <label>
+          <span>Focus</span>
+          <select id="focusFilter"></select>
+        </label>
+        <div class="toggle-row" role="group" aria-label="Quick filters">
+          <button class="chip active" data-filter="all" type="button">All</button>
+          <button class="chip" data-filter="growth" type="button">Growing</button>
+          <button class="chip" data-filter="training" type="button">Training Gaps</button>
+          <button class="chip" data-filter="renewal" type="button">Renewal Window</button>
+        </div>
+      </section>
+
+      <div class="page-shell">
+        <nav class="panel cst-nav" aria-label="Dashboard navigation">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Dashboards</h2>
+              <span class="help-tip" tabindex="0" aria-label="Return to the national dashboard or open another CST dashboard. CST links come from the newest captured Ships sheet.">?</span>
+            </div>
+          </div>
+          <a class="cst-link nav-home" href="./">
+            <strong>National</strong>
+            <span>Top level</span>
+          </a>
+          <a class="cst-link" href="help.html">
+            <strong>Help</strong>
+            <span>Field sources &amp; color meanings</span>
+          </a>
+          <div id="cstLinks" class="cst-link-grid">
+            <a class="cst-link" href="cst.html?cst=1"><strong>CST 1</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=3"><strong>CST 3</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=4"><strong>CST 4</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=5"><strong>CST 5</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=6"><strong>CST 6</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=7"><strong>CST 7</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=8"><strong>CST 8</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=9"><strong>CST 9</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=10"><strong>CST 10</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=12"><strong>CST 12</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=13"><strong>CST 13</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=14"><strong>CST 14</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=15"><strong>CST 15</strong><span>Open dashboard</span></a>
+            <a class="cst-link" href="cst.html?cst=16"><strong>CST 16</strong><span>Open dashboard</span></a>
+          </div>
+        </nav>
+
+        <div class="dashboard-content">
+      <section class="score-grid" aria-label="CST summary metrics">
+        <article class="score">
+          <div class="score-title">
+            <span>Ships</span>
+            <span class="help-tip" tabindex="0" aria-label="Count of ships in this CST from the CST column on the newest captured Ships sheet.">?</span>
+          </div>
+          <strong id="shipCount">-</strong>
+          <small id="newShipCount">-</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Total Youth</span>
+            <span class="help-tip" tabindex="0" aria-label="Sum of Total Youth for ships in this CST and current filter view.">?</span>
+          </div>
+          <strong id="youthCount">-</strong>
+          <small id="youthDelta">-</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Councils</span>
+            <span class="help-tip" tabindex="0" aria-label="Number of distinct councils represented by ships in this CST and current filter view.">?</span>
+          </div>
+          <strong id="councilCount">-</strong>
+          <small>With ships in view</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Training</span>
+            <span class="help-tip" tabindex="0" aria-label="Percent of ships in this CST marked Yes for Skipper Trained and CC Trained.">?</span>
+          </div>
+          <strong id="trainingRate">-</strong>
+          <small>Skipper / Committee Chair</small>
+        </article>
+        <article class="score">
+          <div class="score-title">
+            <span>Avg Metric</span>
+            <span class="help-tip" tabindex="0" aria-label="Average Unit Metric score for ships in this CST and current filter view.">?</span>
+          </div>
+          <strong id="avgMetric">-</strong>
+          <small>0 to 5 scale</small>
+        </article>
+      </section>
+
+      <aside class="panel detail-panel" aria-labelledby="detailTitle">
+        <div class="panel-title">
+          <div class="title-with-help">
+            <h2 id="detailTitle">Ship Detail</h2>
+            <span class="help-tip" tabindex="0" aria-label="Select a ship row in the health board below to see the workbook fields used to enrich the board: council, district, charter organization, skipper, youth/adult totals, renewal, training, focus, AUX district, and health flags.">?</span>
+          </div>
+        </div>
+        <div id="shipDetail" class="ship-detail empty-state">Select a ship row in the health board below to display detailed information here.</div>
+      </aside>
+
+      <section class="board-layout" aria-label="CST ship health board">
+        <section class="panel board-panel">
+          <div class="panel-title board-title">
+            <div class="title-with-help">
+              <h2>Council Health Board</h2>
+              <span class="help-tip" tabindex="0" aria-label="Green means healthy or complete. Amber means watch or approaching action. Red means attention or action is needed. Gray is informational or not scheduled. Size, Growth, Advancement, and Outdoor use the workbook's Yes/No health flags; Training compares Skipper and Committee Chair training; Renewal compares the renewal date with the dashboard refresh date; Metric uses Strong 4+, Watch 2–3, and Risk below 2. Progress is the share of six positive checks: the four health flags, complete training, and Unit Metric 3+.">?</span>
+            </div>
+            <div class="board-actions">
+              <button id="collapseAll" class="small-button" type="button">Collapse all</button>
+              <button id="expandAll" class="small-button" type="button">Expand all</button>
+              <span id="visibleCount" class="count-pill">0 ships</span>
+            </div>
+          </div>
+          <div class="health-legend" aria-label="Health Board color legend">
+            <span><i class="legend-swatch good"></i><b>Green</b> Healthy / complete</span>
+            <span><i class="legend-swatch warn"></i><b>Amber</b> Watch / approaching</span>
+            <span><i class="legend-swatch bad"></i><b>Red</b> Attention needed</span>
+            <span><i class="legend-swatch neutral"></i><b>Gray</b> Informational</span>
+          </div>
+          <div class="board-header" aria-hidden="true">
+            <span>Council / Ship</span>
+            <span>Progress</span>
+            <span>Size</span>
+            <span>Growth</span>
+            <span>Advance</span>
+            <span>Outdoor</span>
+            <span>Training</span>
+            <span>Renewal</span>
+            <span>Metric</span>
+          </div>
+          <div id="groupRows" class="group-rows"></div>
+        </section>
+      </section>
+
+      <section class="dashboard-grid diagnostics-grid">
+        <section class="panel wide">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>CST Health Mix</h2>
+              <span class="help-tip" tabindex="0" aria-label="Counts this CST's ships by Unit Metric bucket.">?</span>
+            </div>
+            <span id="filteredCount">-</span>
+          </div>
+          <div id="metricBars" class="bar-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Ship Focus</h2>
+              <span class="help-tip" tabindex="0" aria-label="Shows this CST's ships by Ship Focus.">?</span>
+            </div>
+          </div>
+          <div id="focusBars" class="bar-list compact"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Aux Districts</h2>
+              <span class="help-tip" tabindex="0" aria-label="Shows this CST's ships by Coast Guard Auxiliary district.">?</span>
+            </div>
+          </div>
+          <div id="auxBars" class="bar-list compact"></div>
+        </section>
+
+        <section class="panel wide">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Councils by Youth</h2>
+              <span class="help-tip" tabindex="0" aria-label="Ranks councils in this CST by summed Total Youth.">?</span>
+            </div>
+          </div>
+          <div id="councilBars" class="bar-list"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-title">
+            <div class="title-with-help">
+              <h2>Renewal Load</h2>
+              <span class="help-tip" tabindex="0" aria-label="Counts this CST's ships by renewal month.">?</span>
+            </div>
+          </div>
+          <div id="renewalBars" class="bar-list compact"></div>
+        </section>
+      </section>
+
+        </div>
+      </div>
+    </main>
+
+    <script src="ui.js?v=20260714-system-theme"></script>
+    <script src="ship-board.js?v=20260702-status-explanations"></script>
+    <script src="cst.js?v=20260702-clear-detail-on-close"></script>
+  </body>
+</html>
