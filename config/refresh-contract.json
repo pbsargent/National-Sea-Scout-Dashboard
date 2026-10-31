@@ -1,0 +1,20 @@
+{
+  "version": "2026-10-29-history-privacy-links",
+  "sha256": {
+    "scripts/refresh_data.py": "5fb2cca9159946f35f159cb52742482767843ff789f63778c69088226fb24faf",
+    "scripts/public_data.py": "8a3d1d47709a586b8a2bf401dc45ee76e9043ecd7fe750309299497ff4ffa595",
+    "scripts/membership_history.py": "709170ef919500041e66fec1032770418a90b5c6e8d28ba5bbb13ee24d15f174",
+    "scripts/monthly_history.py": "df0b6c90a072c25072c489386039cf56fa98d41a37080a8e01b4291da3188ec3",
+    "scripts/validate_public_exports.py": "df43c91f16284b8e56462a2536391b6d6b1ff315f3effd97085a77c470a373bf",
+    "scripts/check_refresh_sources.py": "e923a769e229eed0c2b67d4626d748ec674b0b8f0155e233b52df991d660bbd8",
+    "data/beascout-links.json": "556ec25a59abb55b2308973a34b4808fd8588c046c70b906df4c43feb2f9b483",
+    "src/monthly.html": "ff8a3d65bac7a7ef931c16816a081413fe54dd2b442ddc8bc31ff24e2f59436c",
+    "src/monthly.js": "99471a02acebf05b4d5dfd4d2b5831d98a60540aea7ff5afebfc8d3bae0d91e4",
+    "src/monthly-model.js": "0bf0e3e2c0c65958d616306b3ab0e1a836a798377242ec8b86f1e68ad3cee646",
+    "src/history.html": "208b2aebbb8ffe73c6894c50417cd74cb36fc8022a1f5849d21322ebcceca70c",
+    "src/information.js": "723619eb79c5b5d797e3296867ddd5d632fd160fd9bcc60dfa10807fec9a0722",
+    "src/information.css": "791ee2461999dfc302352f107a8e90dba9c8b13c575b5e4fac996992fcda9654",
+    "src/ship-board.js": "7fb8f9d88269d06a2a5ee2d0e224c325ebd77b097d20c3f1e374e95cdb68c342",
+    "src/help.html": "609ea9e70ec943e3c61da7ae86d8d1e454af5fd56af2580d18eecabf22ceeb1b"
+  }
+}

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Membership History | National Sea Scout Dashboard</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180.png">
+    <script>
+      (() => {
+        const themes = ["system", "light", "dark"];
+        let theme = "system";
+        try {
+          const saved = localStorage.getItem("dashboard-theme-v2");
+          if (themes.includes(saved)) theme = saved;
+        } catch (_error) {
+          // System is the safe default when browser storage is unavailable.
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <link rel="stylesheet" href="styles.css?v=20261018-beascout-links">
+    <link rel="stylesheet" href="information.css?v=20261023">
+  </head>
+  <body data-information="history">
+<header class="topbar"><div class="brand-lockup"><img class="site-logo" src="assets/national-sea-scout-service.png" alt="Sea Scouts BSA National Service"><div><p class="eyebrow">National Sea Scout Dashboard</p><strong>Membership History</strong></div></div><div class="source"><a href="index.html?release=20261029-yoy-default">Ship Health Dashboard</a><span id="informationUpdated">Loading capture…</span></div></header>
+<main class="info-shell"><nav class="panel info-nav" aria-label="Dashboard pages"><a href="index.html?release=20261029-yoy-default">Ship Health</a><a href="status.html?release=20261029-yoy-default">National Status</a><a href="history.html?release=20261029-yoy-default">Membership History</a><a href="monthly.html?release=20261029-yoy-default">Monthly Trends</a><a href="numbers.html?release=20261029-yoy-default">About the Numbers</a><a href="help.html?release=20261029-yoy-default">Help</a></nav><div class="info-heading"><h1>Membership History</h1><p id="informationSource" role="status">Loading source data…</p></div><div id="informationContent" aria-live="polite"></div></main>
+<script src="ui.js?v=20261029-yoy-default"></script><script src="information.js?v=20261029-yoy-default"></script></body></html>
