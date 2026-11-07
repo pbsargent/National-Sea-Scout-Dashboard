@@ -1,0 +1,11 @@
+const assert=require('node:assert/strict');
+const {prepare,compare}=require('../src/monthly-model.js');
+const rows=prepare([{date:'2025-09-30',youth:100,adults:20,ships:10},{date:'2026-07-31',youth:0,adults:0,ships:0},{date:'2026-09-30',youth:120,adults:24,ships:12}]);
+assert.equal(rows.length,13);
+assert.equal(rows.at(-2).youth,null);
+assert.equal(rows.at(-1).average,10);
+assert.deepEqual(compare(rows,rows.at(-1),'youth',1),{change:null,percent:null});
+assert.deepEqual(compare(rows,rows.at(-1),'youth',12),{change:20,percent:20});
+assert.deepEqual(compare(rows,rows.at(-1),'youth',2),{change:120,percent:null});
+assert.equal(rows.find(r=>r.month==='2026-07').average,null);
+console.log('Monthly calendar gap, same-month baseline, and zero denominator checks passed.');
