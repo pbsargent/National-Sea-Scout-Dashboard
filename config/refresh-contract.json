@@ -1,0 +1,29 @@
+{
+  "version": "2026-11-06-without-unit-terminology",
+  "sha256": {
+    "scripts/refresh_data.py": "3bd77fd42c9848b17107033338529e32df698e89687f883ad2a565f529de16ab",
+    "scripts/public_data.py": "8a3d1d47709a586b8a2bf401dc45ee76e9043ecd7fe750309299497ff4ffa595",
+    "scripts/membership_history.py": "c70f189e719851a9e268f3460cf7cf378f0ad81d32204880b035f6fd25ee4c2e",
+    "scripts/monthly_history.py": "cf5b418e4386fb6224108892414c5dc6db25a3a71911c148bc526f701599b21e",
+    "scripts/validate_public_exports.py": "7a1268f77f82f0727b1b9389bcd91d52645f5e2086bb106d5b13b7160e533a6e",
+    "scripts/check_refresh_sources.py": "43cc3a37abac8105fabe879ea4b24b1ef737081dc7b1b5e2d5d5d13198450a62",
+    "data/beascout-links.json": "556ec25a59abb55b2308973a34b4808fd8588c046c70b906df4c43feb2f9b483",
+    "src/monthly.html": "40f028a80ead9ad55700f87590f31398f6554932212f231ed0aaad250a93187d",
+    "src/monthly.js": "901881f21e25c774a12f8af3477e5470014758bf2ad7c839cd8f5ab4bfece490",
+    "src/monthly-model.js": "0bf0e3e2c0c65958d616306b3ab0e1a836a798377242ec8b86f1e68ad3cee646",
+    "src/history.html": "96a1d8777df2b2a981afb8c3c33b36af5f40aa9b57e1360caf7050ddc4b05461",
+    "src/information.js": "55e8f46f4a53472f512131ad15f25be200f0253c5745fcb9df48a3baa31a519d",
+    "src/information.css": "791ee2461999dfc302352f107a8e90dba9c8b13c575b5e4fac996992fcda9654",
+    "src/ship-board.js": "31dd4e26ccba57248e06564db896ec9c373039327910c8cbc8fd71164bbb259c",
+    "src/help.html": "5dba92a1f36cc7d93b92b1953348b2e5b7394f1db0c89fd3fc9b476adcd43059",
+    "src/app.js": "7941b5992de3084063e11e5bb6ae5165f0fc8efe89ee7e6ca068a72935f7f4fc",
+    "src/index.html": "5601e0a60cbe2822492a6b3d2715cec64c4322e74ce5a8a3d78bf335536a9a6e",
+    "src/cst.html": "15b402a5708c4a4b104e514784b9577c81ec5249a81ff54e4e03e99f42d0ed78",
+    "src/cst.js": "5cbd127cc7e8b35db5cb91ee0b9e9e2d3ca9eb1d64feefcbb43d19f8afd2e137",
+    "tests/test_renewal_window.cjs": "e2ab83752d3566e0f865fc2b9c13f2bd3e948fd212732c5f63a716e88aa149c1",
+    "tests/test_renewal_window.py": "cf1ba185455451f44d5a6638f5bff68c381c65649e22ee457f20159ff1fb8ea5",
+    "docs/renewal-window-rule.md": "0c48dfc89f8ee9447e5e7490a394dcddf263ff5fde822f6ab7a0f08a17dc1015",
+    "docs/scouts-without-unit-rule.md": "be90302617920c93334e5df2d38c50e833cedd6b9e8ec0eab9759663d5608a56",
+    "tests/test_terminology.py": "a5a02f0c4ce90562f6bc0ed2ff04c702f4f761f081be0bef1b50039b64b76512"
+  }
+}
